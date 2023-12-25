@@ -103,7 +103,7 @@ def get_date_of_birth(text, ocr_result, status, reason):
             reason = 'Unable to extract date of birth'
     except Exception as e:
         status = False
-        reason = 'Unable to extract last name.'
+        reason = 'Unable to extract date of birth, possible reason can be that date is out of permissible range'
     return ocr_result, status, reason
 
 
@@ -118,7 +118,7 @@ def get_date_of_issue(text, ocr_result, status, reason):
             reason = 'Unable to extract date of issue'
     except Exception as e:
         status = False
-        reason = 'Unable to extract date of issue'
+        reason = 'Unable to extract date of issue, possible reason can be that date is out of permissible range'
     return ocr_result, status, reason
 
 
@@ -133,7 +133,7 @@ def get_date_of_expiry(text, ocr_result, status, reason):
             reason = 'Unable to extract date of expiry'
     except Exception as e:
         status = False
-        reason = 'Unable to extract date of expiry'
+        reason = 'Unable to extract date of expiry, possible reason can be that date is out of permissible range'
     return ocr_result, status, reason
 
 

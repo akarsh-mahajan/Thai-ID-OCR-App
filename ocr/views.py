@@ -51,4 +51,30 @@ def filter_previous_executions(request):
     else:
         return render(request, 'filter_records.html')
     
+#view to handle request to fetch and delete the record with the given identification number
+def fetch_record(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'fetch':
+            input_identification_no = request.POST.get('fetch_id_number', '')
+            fetched_record = OcrRecord.objects.filter(identification_number=input_identification_no)
+            context = {'fetched_record': fetched_record}
+            if not fetched_record:
+                messages.error(request, 'Requested Record not found.')
+            return render(request, 'fetch_records.html', context)
+        elif action == 'delete':
+            input_identification_no = request.POST.get('fetch_id_number', '')
+            record_to_delete = OcrRecord.objects.filter(identification_number=input_identification_no)
+            deleted_records = {}
+            context = {}
+            if record_to_delete:
+                deleted_records = copy.deepcopy(record_to_delete)
+                context = {'fetched_record': deleted_records}
+                record_to_delete.delete()
+                messages.success(request, 'Record deleted successfully.')
+            else:
+                messages.error(request, 'Unable to delete record as requested record not found.')
+            return render(request, 'fetch_records.html', context)
+    else:
+        return render(request, 'fetch_records.html')
 
