@@ -77,4 +77,6 @@ def fetch_record(request):
             return render(request, 'fetch_records.html', context)
     else:
         return render(request, 'fetch_records.html')
+ 
+ #####
 
