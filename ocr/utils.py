@@ -20,8 +20,8 @@ def process_ocr(image):
         ocr_result = extract_data_from_response(response)
         record = OcrRecord.objects.create(
             identification_number=ocr_result.get('Identification ID', ''),
-            first_name=ocr_result.get('First Name', ''),
-            last_name=ocr_result.get('Last Name', ''),
+            first_name=ocr_result.get('First Name', '').upper(),
+            last_name=ocr_result.get('Last Name', '').upper(),
             date_of_birth=ocr_result.get('Date of Birth', None),
             date_of_issue=ocr_result.get('Date of Issue', None),
             date_of_expiry=ocr_result.get('Date of Expiry', None),
