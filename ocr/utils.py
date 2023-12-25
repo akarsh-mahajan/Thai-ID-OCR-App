@@ -159,3 +159,33 @@ def get_ui_response(record: OcrRecord):
         'error_message': record.error_message
     }
     return ui_response
+
+def get_previous_executions():
+    return OcrRecord.objects.all()
+
+def filter_execution_records(date_of_expiry_param, date_of_issue_param, date_of_birth_param, identification_no_param,
+                             name_param, last_name_param):
+    results = OcrRecord.objects.all()
+    # YYYY-MM-DD --> python.date
+    if date_of_birth_param != '':
+        results = results.filter(date_of_birth=datetime.datetime.strptime(date_of_birth_param, '%Y-%m-%d').date())
+
+    if date_of_issue_param != '' and date_of_expiry_param != '':
+        results = results.filter(
+            date_of_issue__gte=datetime.datetime.strptime(date_of_issue_param, '%Y-%m-%d').date()).filter(
+            date_of_expiry__lte=datetime.datetime.strptime(date_of_expiry_param, '%Y-%m-%d').date())
+    elif date_of_issue_param != '':
+        results = results.filter(date_of_issue__gte=datetime.datetime.strptime(date_of_issue_param, '%Y-%m-%d').date())
+    elif date_of_expiry_param != '':
+        results = results.filter(
+            date_of_expiry__lte=datetime.datetime.strptime(date_of_expiry_param, '%Y-%m-%d').date())
+
+    if identification_no_param != '':
+        results = results.filter(identification_number=identification_no_param)
+
+    if name_param != '':
+        results = results.filter(first_name__contains=name_param)
+
+    if last_name_param != '':
+        results = results.filter(last_name__contains=last_name_param)
+    return results

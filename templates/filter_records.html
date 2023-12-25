@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Records</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4caf50;
+            padding: 20px;
+            color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        div {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        label {
+            flex-basis: 48%; /* Adjusted width */
+            font-size: 12px; /* Adjusted font size */
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        label b {
+            font-size: 16px; /* Big and bold */
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="date"] {
+            width: calc(50% - 4px);
+        }
+
+        input[type="text"] {
+            width: calc(50% - 4px);
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Thai ID OCR App</h1>
+    </header>
+    <h2>Filter Records</h2>
+
+    <form method="get" action="{% url 'filter_previous_executions' %}">
+        <div>
+            <label for="date_of_issue"><b>Date of Issue:</b></label>
+            <input type="date" name="date_of_issue">
+
+            <label for="date_of_expiry"><b>Date of Expiry:</b></label>
+            <input type="date" name="date_of_expiry">
+
+            <label for="date_of_birth"><b>Date of Birth:</b></label>
+            <input type="date" name="date_of_birth">
+        </div>
+
+        <div>
+            <label for="name"><b>Name:</b></label>
+            <input type="text" name="name">
+
+            <label for="last_name"><b>Last Name:</b></label>
+            <input type="text" name="last_name">
+
+            <label for="identification_number"><b>Identification Number:</b></label>
+            <input type="text" name="identification_number">
+        </div>
+
+        <button type="submit">Filter</button>
+        <a href="{% url 'upload_id_card' %}">Back to Home</a>
+    </form>
+
+    {% if filtered_records %}
+        <h3>Filtered Records</h3>
+        <table>
+            <tr>
+                <th>Identification Number</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Date of Issue</th>
+                <th>Date of Expiry</th>
+                <th>Status</th>
+                <th>Error Message</th>
+            </tr>
+            {% for record in filtered_records %}
+                <tr>
+                    <td>{{ record.identification_number }}</td>
+                    <td>{{ record.first_name }}</td>
+                    <td>{{ record.last_name }}</td>
+                    <td>{{ record.date_of_birth }}</td>
+                    <td>{{ record.date_of_issue }}</td>
+                    <td>{{ record.date_of_expiry }}</td>
+                    <td>{{ record.status }}</td>
+                    <td>{{ record.error_message }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    <p>No Record Found</p>
+    {% endif %}
+</body>
+</html>
