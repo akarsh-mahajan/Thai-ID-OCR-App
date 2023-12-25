@@ -41,9 +41,9 @@ def filter_previous_executions(request):
         date_of_issue_param = request.GET.get('date_of_issue', '')
         date_of_expiry_param = request.GET.get('date_of_expiry', '')
         date_of_birth_param = request.GET.get('date_of_birth', '')
-        identification_no_param = request.GET.get('identification_number', '')
-        name_param = request.GET.get('name', '')
-        last_name_param = request.GET.get('last_name', '')
+        identification_no_param = request.GET.get('identification_number', '').strip()
+        name_param = request.GET.get('name', '').strip()
+        last_name_param = request.GET.get('last_name', '').strip()
         filter_records = utils.filter_execution_records(date_of_expiry_param, date_of_issue_param, date_of_birth_param,
                                                   identification_no_param, name_param, last_name_param)
         context = {'filtered_records': filter_records}
@@ -56,14 +56,14 @@ def fetch_record(request):
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'fetch':
-            input_identification_no = request.POST.get('fetch_id_number', '')
+            input_identification_no = request.POST.get('fetch_id_number', '').strip()
             fetched_record = OcrRecord.objects.filter(identification_number=input_identification_no)
             context = {'fetched_record': fetched_record}
             if not fetched_record:
                 messages.error(request, 'Requested Record not found.')
             return render(request, 'fetch_records.html', context)
         elif action == 'delete':
-            input_identification_no = request.POST.get('fetch_id_number', '')
+            input_identification_no = request.POST.get('fetch_id_number', '').strip()
             record_to_delete = OcrRecord.objects.filter(identification_number=input_identification_no)
             deleted_records = {}
             context = {}
