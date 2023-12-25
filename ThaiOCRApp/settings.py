@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ThaiIDOCRApp.wsgi.application'
+WSGI_APPLICATION = 'ThaiOCRApp.wsgi.application'
 
 
 # Database
